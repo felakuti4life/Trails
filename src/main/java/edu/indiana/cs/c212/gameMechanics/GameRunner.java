@@ -9,6 +9,7 @@ import java.util.Scanner;
 import edu.indiana.cs.c212.board.Board;
 import edu.indiana.cs.c212.board.SimpleGameBoard;
 import edu.indiana.cs.c212.exceptions.InvalidMoveException;
+import edu.indiana.cs.c212.players.CommandLinePlayer;
 import edu.indiana.cs.c212.players.Player;
 import edu.indiana.cs.c212.view.textual.CommandLineView;
 
@@ -89,12 +90,12 @@ public class GameRunner extends Observable implements Runnable {
 		if(playerType == "Command Line")
 			return new CommandLinePlayer(color);
 		
-		
+		/*
 		else if(playerType =="Point And Click")
 			return new PointAndClickPlayer(color);
 		else if(playerType=="Random")
 			return new SimpleRandom(color);
-		
+		*/
 		else{
 			return new SimpleRandom(color);
 			System.out.println("invalid player type. I guess I will just have to play for you.");
