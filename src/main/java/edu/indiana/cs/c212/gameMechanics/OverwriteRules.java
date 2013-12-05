@@ -18,7 +18,7 @@ public class OverwriteRules extends StandardRules {
 
 	public boolean isLegalMove(Move m){
 		int x= m.getX(), y=m.getY();
-		if(x<0 || x>board.getSize() || y<0 || y>board.getSize()||!board.getTileAt(x, y).getColor().equals(BLANK))
+		if(x<0 || x>board.getSize() || y<0 || y>board.getSize()||!board.getTileAt(x, y).getColor().equals(PlayerColor.BLANK))
 			return false;
 		else return true;
 	}

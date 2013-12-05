@@ -19,18 +19,25 @@ public class GameRunner extends Observable implements Runnable {
 	private SimpleGameBoard board;
 	private Player red, blue;
 	private StandardRules  rules;
-	private static List<String> playersList;
+	private static ArrayList<String> playersList;
 	private boolean redTurn;
 	private boolean gameStopped;
 	private Observer observer;
+	private static ArrayList<String> ruleSets = new ArrayList<String>(3);
+	
+	
 	public GameRunner(int boardSize, String red, String blue, String ruleSet){
-		List<String> playerList = new ArrayList<String>();
-		playerList.add(red);
-		playerList.add(blue);
+		this.playersList = new ArrayList<String>();
+		playersList.add(red);
+		playersList.add(blue);
+
+		
+		
+		
 		
 		this.board = new SimpleGameBoard(boardSize);
-		this.red = new Player(PlayerColor(Integer.getInteger(red)));
-		this.blue = new Player(PlayerColor(1));
+		this.red = createPlayer(red, PlayerColor.RED);
+		this.blue = createPlayer(blue, PlayerColor.BLUE);
 		if(ruleSet == "0")
 			this.rules = new StandardRules(this.board, this.red, this.blue);
 		if(ruleSet == "1")
@@ -86,6 +93,13 @@ public class GameRunner extends Observable implements Runnable {
 		else return this.blue;
 	}
 	
+	public static List<String> getRuleSets(){
+		ruleSets.add("Standard");
+		ruleSets.add("Lose by Connecting");
+		ruleSets.add("Overwrite");
+		return ruleSets;
+	}
+	
 	protected Player createPlayer(String playerType, PlayerColor color){
 		if(playerType == "Command Line")
 			return new CommandLinePlayer(color);
@@ -112,7 +126,5 @@ public class GameRunner extends Observable implements Runnable {
 			Scanner scanner = new Scanner(System.in);
 			CommandLineView.setup(scanner);
 		}
-		
-		else run();
 	}
 }

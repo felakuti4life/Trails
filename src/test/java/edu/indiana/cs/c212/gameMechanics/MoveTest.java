@@ -1,12 +1,7 @@
 package edu.indiana.cs.c212.gameMechanics;
 
-<<<<<<< HEAD
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-=======
 import static org.junit.Assert.*;
 import static org.hamcrest.CoreMatchers.*;
->>>>>>> b0c84c605ba8b02db7f6966dce89b97067e426f6
 
 import org.junit.Test;
 
@@ -36,8 +31,6 @@ public class MoveTest {
 		Move m2 = new Move(1, 2);
 		assertEquals("a move with the same X and Y should be equals", m, m2);
 	}
-<<<<<<< HEAD
-=======
 	
 	@Test(timeout = 100)
 	public void testEquals2() {
@@ -60,5 +53,4 @@ public class MoveTest {
 		NotMove m2 = new NotMove();
 		assertFalse("a point and a move should not be equals", m.equals(m2));
 	}
->>>>>>> b0c84c605ba8b02db7f6966dce89b97067e426f6
 }
