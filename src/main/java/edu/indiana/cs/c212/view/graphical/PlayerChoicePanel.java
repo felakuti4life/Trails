@@ -1,26 +1,67 @@
 package edu.indiana.cs.c212.view.graphical;
 
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.JMenuItem;
+import javax.swing.AbstractButton;
+import javax.swing.ButtonGroup;
+import javax.swing.ButtonModel;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JMenu;
+import javax.swing.JRadioButton;
 
-public class PlayerChoicePanel extends JPanel {
+import edu.indiana.cs.c212.gameMechanics.PlayerColor;
+
+public class PlayerChoicePanel extends JPanel implements ActionListener {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String name;
-	private JMenu menu;
-	private JMenuItem basicPlayerItem;
-	private JMenuItem randomPlayerItem;
-	private ActionListener listener;
+	private JLabel label = new JLabel("Player Choice");
+	private JRadioButton basicPlayerItem;
+	private JRadioButton randomPlayerItem;
+	private AbstractButton commandLinePlayerItem;
+	private ButtonGroup radioGroup;
 	
-	public PlayerChoicePanel(String name){
-		menu = new JMenu();
-		basicPlayerItem = new JMenuItem("Basic Player");
-	    basicPlayerItem.addActionListener(listener);
-	    menu.add(basicPlayerItem);
-	    randomPlayerItem = new JMenuItem("Random Player");
-	    randomPlayerItem.addActionListener(listener);
-	    menu.add(randomPlayerItem);
+	public String playerTypeSelected;
+	
+	public PlayerChoicePanel(String name, PlayerColor color){
+		this.name = name;
+		String labelColor = (color == PlayerColor.RED) ? "red" : "blue";
+		label.setText(name + " (" + labelColor + "):");
+		radioGroup = new ButtonGroup();
+		basicPlayerItem = new JRadioButton("Basic Player");
+	    basicPlayerItem.addActionListener(this);
+	    randomPlayerItem = new JRadioButton("Random Player");
+	    randomPlayerItem.addActionListener(this);
+	    commandLinePlayerItem = new JRadioButton("commandLinePlayer");
+	    commandLinePlayerItem.addActionListener(this);
+	    
+	    radioGroup.add(basicPlayerItem);
+	    radioGroup.add(randomPlayerItem);
+	    radioGroup.add(randomPlayerItem);
+	    
+	    this.add(label);
+	    this.add(basicPlayerItem);
+	    this.add(randomPlayerItem);
+	    this.add(commandLinePlayerItem);
 	}
+	
+	public String getName(){
+		return this.name;
+	}
+	
+	public String getPlayerType(){
+		return this.playerTypeSelected;
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent arg0) {
+		ButtonModel model = radioGroup.getSelection();
+		this.playerTypeSelected = (model == null) ? "" : model.getActionCommand();
+		
+	}
+	
 	
 }

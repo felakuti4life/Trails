@@ -11,6 +11,7 @@ import edu.indiana.cs.c212.board.SimpleGameBoard;
 import edu.indiana.cs.c212.exceptions.InvalidMoveException;
 import edu.indiana.cs.c212.players.CommandLinePlayer;
 import edu.indiana.cs.c212.players.Player;
+import edu.indiana.cs.c212.players.SimpleRandom;
 import edu.indiana.cs.c212.view.textual.CommandLineView;
 
 
@@ -27,13 +28,10 @@ public class GameRunner extends Observable implements Runnable {
 	
 	
 	public GameRunner(int boardSize, String red, String blue, String ruleSet){
-		this.playersList = new ArrayList<String>();
+		GameRunner.playersList = new ArrayList<String>();
 		playersList.add(red);
 		playersList.add(blue);
 
-		
-		
-		
 		
 		this.board = new SimpleGameBoard(boardSize);
 		this.red = createPlayer(red, PlayerColor.RED);
@@ -107,12 +105,13 @@ public class GameRunner extends Observable implements Runnable {
 		/*
 		else if(playerType =="Point And Click")
 			return new PointAndClickPlayer(color);
+			*/
 		else if(playerType=="Random")
 			return new SimpleRandom(color);
-		*/
+		
 		else{
-			return new SimpleRandom(color);
 			System.out.println("invalid player type. I guess I will just have to play for you.");
+			return new SimpleRandom(color);
 		}
 		
 	}
