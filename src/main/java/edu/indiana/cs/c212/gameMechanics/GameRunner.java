@@ -12,6 +12,7 @@ import edu.indiana.cs.c212.exceptions.InvalidMoveException;
 import edu.indiana.cs.c212.players.CommandLinePlayer;
 import edu.indiana.cs.c212.players.Player;
 import edu.indiana.cs.c212.players.SimpleRandom;
+import edu.indiana.cs.c212.view.graphical.GraphicalBoardView;
 import edu.indiana.cs.c212.view.textual.CommandLineView;
 
 
@@ -125,5 +126,6 @@ public class GameRunner extends Observable implements Runnable {
 			Scanner scanner = new Scanner(System.in);
 			CommandLineView.setup(scanner);
 		}
+		else GraphicalBoardView.setup();
 	}
 }

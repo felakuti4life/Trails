@@ -2,6 +2,7 @@ package edu.indiana.cs.c212.view.graphical;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Polygon;
 import java.util.Observable;
 import java.util.Observer;
@@ -39,16 +40,20 @@ public class TurnViewer extends JPanel implements Observer {
 	
 	public void paintComponent(Graphics g){
 		
-		g.drawPolygon(redTriangle);
-		g.drawPolygon(blueTriangle);
+		Graphics2D temp = (Graphics2D) g;
+		temp.drawPolygon(redTriangle);
+		temp.drawPolygon(blueTriangle);
 		if(this.player.equals(PlayerColor.RED)){
-			g.setColor(Color.RED);
-			g.fillPolygon(redTriangle);
+			temp.setColor(Color.RED);
+			temp.fillPolygon(redTriangle);
 		}
 		else{
-			g.setColor(Color.BLUE);
-			g.fillPolygon(blueTriangle);
+			temp.setColor(Color.BLUE);
+			temp.fillPolygon(blueTriangle);
 		}
+		
+		temp.drawPolygon(redTriangle);
+		temp.drawPolygon(blueTriangle);
 		super.paintComponent(g);
 	}
 	
