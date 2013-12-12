@@ -20,8 +20,8 @@ public class StandardRules {
 		this.board = board;
 		this.red = red;
 		this.blue = blue;
-		playerQueue.add(blue);
-		playerQueue.add(red);
+		playerQueue.add(this.blue);
+		playerQueue.add(this.red);
 	}
 	
 	public Queue<Player> getPlayers(){
@@ -37,11 +37,10 @@ public class StandardRules {
 			Tile current = neighbors.poll();
 			checked.add(current);
 			
-			for (Tile neighbor : board.getNeighbors(current)) 
+			for (Tile neighbor : board.getNeighbors(current))
 				if (!checked.contains(neighbor)
 						&& neighbor.getColor().equals(color))
 							neighbors.add(neighbor);
-			
 			if (neighbors.contains(goal)) return true;
 		}
 		return false;

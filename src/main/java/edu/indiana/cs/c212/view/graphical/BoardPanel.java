@@ -19,6 +19,8 @@ import edu.indiana.cs.c212.board.Tile;
 public class BoardPanel extends JPanel implements ActionListener, Observer {
 	
 	private static final long serialVersionUID = -2590536940878831526L;
+	private static int TILES_X_OFFSET = 40;
+	private static int TILES_Y_OFFSET = 30;
 	protected Board board;
 	protected Point chosenXY;
 	private int radius = 15;
@@ -28,10 +30,17 @@ public class BoardPanel extends JPanel implements ActionListener, Observer {
 	public BoardPanel(Board board){
 		resetTiles(board);
 	}
+	
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		Toolkit tk = Toolkit.getDefaultToolkit();
+		for (AWTEventListener listener : tk.getAWTEventListeners())
+		    listener.eventDispatched(e);
+	}
+
 
 	@Override
 	public void update(Observable arg0, Object arg1) {
-		// TODO Auto-generated method stub
 		Board currentBoard = (Board) arg1;
 		resetTiles(currentBoard);
 		repaint();
@@ -56,8 +65,8 @@ public class BoardPanel extends JPanel implements ActionListener, Observer {
 		for (int x = 0; x < boardSize; x++) {
 			for (int y = 0; y < boardSize; y++) {
 				Tile tile = board.getTileAt(x, y);
-				int xCoord = 2*x*this.radius;
-				int yCoord = 2*y*this.radius;
+				int xCoord = TILES_X_OFFSET + x*2*this.radius;
+				int yCoord = TILES_Y_OFFSET + 2*y*this.radius;
 
 				HexTile hexTile = new HexTile(xCoord, yCoord, this.radius, tile);
 				hexTile.addActionListener(this);
@@ -67,12 +76,4 @@ public class BoardPanel extends JPanel implements ActionListener, Observer {
 		}
 		
 	}
-
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		Toolkit tk = Toolkit.getDefaultToolkit();
-		for (AWTEventListener listener : tk.getAWTEventListeners())
-		    listener.eventDispatched(e);
-	}
-
 }

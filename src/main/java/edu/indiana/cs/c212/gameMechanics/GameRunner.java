@@ -36,6 +36,7 @@ public class GameRunner extends Observable implements Runnable {
 		playersList.add(blue);
 
 		
+		
 		this.board = new SimpleGameBoard(boardSize);
 		this.red = createPlayer(red, PlayerColor.RED);
 		this.blue = createPlayer(blue, PlayerColor.BLUE);
@@ -57,34 +58,37 @@ public class GameRunner extends Observable implements Runnable {
 	}
 	
 	@Override
-	public void run() {
-		while(!(rules.checkForWins().equals(blue)|| rules.checkForWins().equals(red)) && !gameStopped){
-			Board tempBoard = new SimpleGameBoard(this.board);
-			if(getCurrentPlayer() == blue){
-				ArrayList<Move> legalMoves = rules.getLegalMoves(blue);
-				for(int i = 0; i < legalMoves.size(); i++){
-					System.out.println(legalMoves.get(i).toString());
-				}
-				try {
-					rules.makeMove(this.blue.getMove(tempBoard, legalMoves));
-				} catch (InvalidMoveException e) {
-					System.out.println("Invalid move!");
-					e.printStackTrace();
+public void run() {
+		
+		this.gameStopped = false;
+		
+		while (!gameStopped) {
+			Player currentPlayer = getCurrentPlayer();
+			
+			Move move = getCurrentPlayer().getMove(new SimpleGameBoard(board), rules.getLegalMoves(getCurrentPlayer()));
+			boolean isLegalMove = rules.isLegalMove(move);
+			
+			if (!isLegalMove) {
+				stopGame();
+				break;
+			} 
+			
+			else {
+				System.out.println(CommandLineView.boardToString(board));
+				System.out.println(currentPlayer + "'s move: " + move);
+				
+				board.makeMove(move, getCurrentPlayer().getColor());
+
+				setChanged();
+				notifyObservers(board);
+				PlayerColor winnerColor = rules.checkForWins();
+				
+				if (winnerColor == null) {
+					rules.nextTurn();
+				} else {
+					stopGame();
 				}
 			}
-			if(getCurrentPlayer() == red){
-				ArrayList<Move> legalMoves = rules.getLegalMoves(red);
-					for(int i = 0; i < legalMoves.size(); i++){
-						System.out.println(legalMoves.get(i).toString());
-					}
-					try {
-						rules.makeMove(this.red.getMove(tempBoard, legalMoves));
-					} catch (InvalidMoveException e) {
-						System.out.println("Invalid move!");
-						e.printStackTrace();
-					}
-			}
-			redTurn = !redTurn;
 		}
 	}
 

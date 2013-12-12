@@ -15,10 +15,11 @@ public class GraphicalBoardView extends JFrame implements ActionListener{
 	
 	private static final long serialVersionUID = 8269507648751021974L;
 	private GameRunner game;
-	private static TurnViewer turnPanel;
-	private static String redPlayerName;
-	private static String bluePlayerName;
 	
+	private static String redPlayerName = "Red Player";
+	private static String bluePlayerName = "Blue Player";
+	
+	private static TurnViewer turnPanel = new TurnViewer(PlayerColor.RED, redPlayerName, bluePlayerName);
 	private static PlayerChoicePanel redPanel = new PlayerChoicePanel(redPlayerName, PlayerColor.RED);
 	private static PlayerChoicePanel bluePanel = new PlayerChoicePanel(bluePlayerName, PlayerColor.BLUE);
 	private static BoardPanel mainPanel;
@@ -31,6 +32,7 @@ public class GraphicalBoardView extends JFrame implements ActionListener{
 					redPanel.getPlayerType(),
 					bluePanel.getPlayerType(), 
 					rulesPanel.getRules());
+		game.addObserver(mainPanel);
 		mainPanel = new BoardPanel(game.getBoard());
 	}
 
