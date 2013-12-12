@@ -59,8 +59,7 @@ public class TurnViewer extends JPanel implements Observer {
 	
 	@Override
 	public void update(Observable o, Object arg) {
-		//FIXME: find the graphical argument?
-			this.paintComponent(null);
+		this.game = (GameRunner) o;
 	}
 	
 	

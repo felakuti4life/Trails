@@ -6,6 +6,8 @@ import java.util.Observable;
 import java.util.Observer;
 import java.util.Scanner;
 
+import javax.swing.SwingUtilities;
+
 import edu.indiana.cs.c212.board.Board;
 import edu.indiana.cs.c212.board.SimpleGameBoard;
 import edu.indiana.cs.c212.exceptions.InvalidMoveException;
@@ -114,7 +116,6 @@ public class GameRunner extends Observable implements Runnable {
 			System.out.println("invalid player type. I guess I will just have to play for you.");
 			return new SimpleRandom(color);
 		}
-		
 	}
 
 	public void stopGame(){
@@ -122,10 +123,10 @@ public class GameRunner extends Observable implements Runnable {
 	}
 	
 	public static void main(String[] args){
-		if(args[0] == "cmd"){
-			Scanner scanner = new Scanner(System.in);
-			CommandLineView.setup(scanner);
-		}
-		else GraphicalBoardView.setup();
+		if (args.length == 1 && args[0].equals("text")) {
+	        Scanner scanner = new Scanner(System.in);
+	        CommandLineView.setup(scanner);
+	    } else
+	        SwingUtilities.invokeLater(GraphicalBoardView.setup());
 	}
 }

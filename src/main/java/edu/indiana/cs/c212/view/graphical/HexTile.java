@@ -88,6 +88,7 @@ public class HexTile extends JButton {
 	
 	public void setRadius(int radius){
 		this.radius = radius;
+		repaint();
 	}
 
 	

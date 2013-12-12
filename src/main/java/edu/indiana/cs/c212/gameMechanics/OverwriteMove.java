@@ -7,4 +7,8 @@ public class OverwriteMove extends Move {
 		super(x,y);
 		
 	}
+	
+	public String toString() {
+		return "Overwrite! " + x + ", " + y;
+	}
 }

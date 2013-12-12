@@ -13,33 +13,36 @@ import edu.indiana.cs.c212.gameMechanics.PlayerColor;
 
 public class GraphicalBoardView extends JFrame implements ActionListener{
 	
-
+	private static final long serialVersionUID = 8269507648751021974L;
 	private GameRunner game;
-	private String playerName;
-	private TurnViewer turnPanel;
+	private static TurnViewer turnPanel;
 	private static String redPlayerName;
 	private static String bluePlayerName;
 	
 	private static PlayerChoicePanel redPanel = new PlayerChoicePanel(redPlayerName, PlayerColor.RED);
 	private static PlayerChoicePanel bluePanel = new PlayerChoicePanel(bluePlayerName, PlayerColor.BLUE);
+	private static BoardPanel mainPanel;
 	
-	private static BoardSetupPanel boardPanel;
+	private static BoardSetupPanel boardSetupPanel;
 	private static RulesPanel rulesPanel;
 	private static JButton startButton = new JButton("Start");
-	
 	protected void prepareGame(){
-		this.game = new GameRunner(boardPanel.getBoardSize(), 
+		game = new GameRunner(boardSetupPanel.getBoardSize(), 
 					redPanel.getPlayerType(),
 					bluePanel.getPlayerType(), 
 					rulesPanel.getRules());
+		mainPanel = new BoardPanel(game.getBoard());
 	}
 
 	
 	//TODO: fix
 	@Override
 	public void actionPerformed(ActionEvent e){
-		Thread gameThread = new Thread(game); 
-		 gameThread.start();
+		if (game != null) game.stopGame();
+		
+		this.prepareGame();
+		Thread gameThread = new Thread(game);
+		gameThread.start();
 		
 	}
 	
@@ -48,7 +51,7 @@ public class GraphicalBoardView extends JFrame implements ActionListener{
             public void run() {
                 createAndShowGUI();
             }
-            };
+           };
 	}
 	
 	protected static void createAndShowGUI(){
@@ -58,9 +61,11 @@ public class GraphicalBoardView extends JFrame implements ActionListener{
 		JLabel label = new JLabel("TILES");
 		
         frame.getContentPane().add(label, BorderLayout.PAGE_START);
+        frame.getContentPane().add(turnPanel, BorderLayout.PAGE_START);
         frame.getContentPane().add(redPanel, BorderLayout.LINE_START);
+        frame.getContentPane().add(mainPanel, BorderLayout.CENTER);
         frame.getContentPane().add(bluePanel, BorderLayout.LINE_END);
-        frame.getContentPane().add(boardPanel, BorderLayout.PAGE_END);
+        frame.getContentPane().add(boardSetupPanel, BorderLayout.PAGE_END);
         frame.getContentPane().add(rulesPanel, BorderLayout.PAGE_END);
         frame.getContentPane().add(startButton, BorderLayout.PAGE_END);
         

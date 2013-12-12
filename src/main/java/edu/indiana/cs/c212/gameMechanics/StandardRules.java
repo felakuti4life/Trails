@@ -1,11 +1,10 @@
 package edu.indiana.cs.c212.gameMechanics;
 
 import java.util.ArrayList;
-import java.util.Iterator;
+import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Set;
-import java.util.concurrent.ArrayBlockingQueue;
-
 import edu.indiana.cs.c212.board.Board;
 import edu.indiana.cs.c212.board.Tile;
 import edu.indiana.cs.c212.exceptions.InvalidMoveException;
@@ -15,80 +14,112 @@ public class StandardRules {
 	private Board board;
 	private Player red;
 	private Player blue;
+	private LinkedList<Player> playerQueue = new LinkedList<Player>();
 	
 	public StandardRules(Board board, Player red, Player blue){
 		this.board = board;
 		this.red = red;
 		this.blue = blue;
+		playerQueue.add(blue);
+		playerQueue.add(red);
 	}
 	
 	public Queue<Player> getPlayers(){
-		
-		Queue<Player> playerQueue= new ArrayBlockingQueue<Player>(2);
-		playerQueue.add(blue);
-		playerQueue.add(red);
 		return playerQueue;
 	}
 	
 	public static boolean areTilesConnected(Board board, Tile start, Tile goal, PlayerColor color){
-		if(start.equals(goal))return true;
-		Tile currentTile = start;
-		if(!currentTile.getColor().equals(color))return false;
-		Set<Tile> neighbors= board.getNeighbors(currentTile);
-		Iterator<Tile> iterator= neighbors.iterator();
-		if(!iterator.hasNext()) return false;
-		Tile newCurrentTile = iterator.next();
-		if(newCurrentTile.getColor()==color){
-			return areTilesConnected(board, newCurrentTile, goal, color);
+		Set<Tile> checked = new HashSet<Tile>();
+		Queue<Tile> neighbors = new LinkedList<Tile>();
+		
+		neighbors.add(start);
+		while (!neighbors.isEmpty()) {
+			Tile current = neighbors.poll();
+			checked.add(current);
+			
+			for (Tile neighbor : board.getNeighbors(current)) 
+				if (!checked.contains(neighbor)
+						&& neighbor.getColor().equals(color))
+							neighbors.add(neighbor);
+			
+			if (neighbors.contains(goal)) return true;
 		}
 		return false;
 	}
+	
+	public boolean redVictory(){
+		for (int goalIndex = -1; goalIndex <= board.getSize(); goalIndex++) {
+			for (int startIndex = -1; startIndex <= board.getSize(); startIndex++) {
+				Tile start = board.getTileAt(-1, startIndex);
+				Tile goal = board.getTileAt(board.getSize() - 1, goalIndex);
+				if (areTilesConnected(board, start, goal, red.getColor()))
+					return true;
+				
+			}
+		}
+		return false;
+	}
+	
+	public boolean blueVictory(){
+		for (int goalIndex = 0; goalIndex < board.getSize(); goalIndex++) {
+			for (int startIndex = 0; startIndex < board.getSize(); startIndex++) {
+				Tile start = board.getTileAt(startIndex, 0);
+				Tile goal = board.getTileAt(goalIndex, board.getSize() - 1);
+				if (areTilesConnected(board, start, goal, blue.getColor()))
+					return true;
+				
+			}
+		}
+		return false;
+	}
+	
 	public PlayerColor checkForWins(){
-		if(areTilesConnected(board,board.getTileAt(0, board.getSize()),board.getTileAt(board.getSize(), 0),red.getColor()))
-			return red.getColor();
-		else if(areTilesConnected(board,board.getTileAt(board.getSize(), 0),board.getTileAt(0, board.getSize()),blue.getColor()))
-			return blue.getColor();
-		else return null;
+		if (playerQueue.get(0).equals(red)
+				&& redVictory())
+				return red.getColor();
+			else if (blueVictory())
+				return blue.getColor();
+			return null;
 	}
 	
 	public boolean isLegalMove(Move m){
 		int x= m.getX(), y=m.getY();
-		if(x<0 || x>board.getSize() || y<0 || y>board.getSize()||!board.getTileAt(x, y).getColor().equals(null))
-			return false;
-		else return true;
+		return board.getTileAt(x, y).getColor().equals(PlayerColor.BLANK);
 	}
 	
-	public Player nextTurn(){
-		Player currentPlayer = getPlayers().peek();
-		Move currentMove = currentPlayer.getMove(board, null);
-		int x = currentMove.getX();
-		int y = currentMove.getY();
-		Tile moveTile = board.getTileAt(x, y);
-		moveTile.setColor(currentPlayer.getColor());
-		return getNextPlayer();
+	public Player nextTurn() {
+		Player nextPlayer = playerQueue.poll();
+		playerQueue.add(nextPlayer);
+		
+		return nextPlayer;
 	}
 	
 	public Player getNextPlayer(){
-		return getPlayers().poll();
+		return playerQueue.get(1);
 	}
 	
-	public void makeMove(Move m) throws InvalidMoveException{
-		if(isLegalMove(m)){
-			board.getTileAt(m.getX(), m.getY()).setColor(getPlayers().peek().getColor());
-		}
-		else throw new InvalidMoveException("invalid move!", m, 0);
-	}
 	
 	public ArrayList<Move> getLegalMoves(Player p){
-		ArrayList<Move> moveList = new ArrayList<Move>();
+		ArrayList<Move> movesList = new ArrayList<Move> ();
 		
-		for(int x=0; x<board.getSize(); x++){
-			for(int y=0; y<board.getSize(); y++){
-				Move currentMove=new Move(x,y);
-				if(isLegalMove(currentMove))moveList.add(currentMove);
+		for (int y = 0; y < board.getSize(); y++) {
+			for (int x = 0; x < board.getSize(); x++) {
+				
+				Move move = new Move(x, y);
+				if (isLegalMove(move)) {
+					movesList.add(move);
+				}
 			}
 		}
-		return moveList;
+		return movesList;
+	}
+	
+	public void makeMove(Move m) throws InvalidMoveException {
+		if (isLegalMove(m)) {
+			board.makeMove(m, playerQueue.get(0).getColor());
+		} else {
+			throw new InvalidMoveException("Invalid!", m, InvalidMoveException.ALREADY_TAKEN);
+		}
 	}
 
 }
