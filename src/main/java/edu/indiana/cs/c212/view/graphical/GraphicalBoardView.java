@@ -5,6 +5,7 @@ import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.Box;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -63,20 +64,28 @@ public class GraphicalBoardView extends JFrame implements ActionListener{
 	protected static void createAndShowGUI(){
 		JFrame frame = new JFrame("mainWindow");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		/*FlowLayout flow = new FlowLayout();
-		frame.getContentPane().setLayout(flow);*/
+		FlowLayout flow = new FlowLayout();
+		frame.getContentPane().setLayout(flow);
 		
 		
-		
+		mainPanel.setSize(3000,3000);
+		turnPanel.setSize(800,300);
+		boardSetupPanel.setSize(350, 150);
+		rulesPanel.setSize(200,100);
+		startButton.setSize(100, 100);
 		JLabel label = new JLabel("TILES");
-		
+		frame.getContentPane().add(label);
+		frame.getContentPane().add(Box.createVerticalStrut(300));
+        frame.getContentPane().add(mainPanel);
+        frame.getContentPane().add(Box.createVerticalStrut(300));
         frame.getContentPane().add(turnPanel);
-        frame.getContentPane().add(mainPanel, BorderLayout.PAGE_START);
-        frame.getContentPane().add(boardSetupPanel, BorderLayout.LINE_START);
-        frame.getContentPane().add(rulesPanel, BorderLayout.CENTER);
-        frame.getContentPane().add(startButton, BorderLayout.PAGE_END);
+        frame.getContentPane().add(boardSetupPanel);
+        frame.getContentPane().add(rulesPanel);
+        frame.getContentPane().add(Box.createVerticalGlue());
+        frame.getContentPane().add(startButton);
         
         frame.pack();
+        frame.setSize(5000, 5000);
         frame.setVisible(true);
 	}
 

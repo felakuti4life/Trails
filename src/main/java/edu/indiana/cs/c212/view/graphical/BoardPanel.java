@@ -33,9 +33,18 @@ public class BoardPanel extends JPanel implements ActionListener, Observer {
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		Toolkit tk = Toolkit.getDefaultToolkit();
-		for (AWTEventListener listener : tk.getAWTEventListeners())
-		    listener.eventDispatched(e);
+		HexTile tile = (HexTile) e.getSource();
+		
+		int x = tile.getBoardX();
+		int y = tile.getBoardY();
+		Point point = new Point(x,y);
+		
+		MoveEvent moveEvent = new MoveEvent (point, e.getID());
+		
+		Toolkit toolkit = Toolkit.getDefaultToolkit();
+		for (AWTEventListener listener : toolkit.getAWTEventListeners()) {
+		    listener.eventDispatched(moveEvent);
+		}
 	}
 
 
@@ -72,8 +81,8 @@ public class BoardPanel extends JPanel implements ActionListener, Observer {
 					yCoord = TILES_Y_OFFSET + 2*y*this.radius;
 				}
 				else{
-					xCoord = TILES_X_OFFSET + x*2*this.radius;
-					yCoord = TILES_Y_OFFSET + 3*y*this.radius;
+					xCoord = TILES_X_OFFSET + x*3*this.radius;
+					yCoord = TILES_Y_OFFSET + 2*y*this.radius;
 				}
 
 				HexTile hexTile = new HexTile(xCoord, yCoord, this.radius, tile);
