@@ -74,17 +74,9 @@ public class BoardPanel extends JPanel implements ActionListener, Observer {
 		for (int x = 0; x < boardSize; x++) {
 			for (int y = 0; y < boardSize; y++) {
 				Tile tile = board.getTileAt(x, y);
-				int xCoord = 0;
-				int yCoord = 0;
-				if(y % 2 == 0){
-					xCoord = TILES_X_OFFSET + x*2*this.radius;
-					yCoord = TILES_Y_OFFSET + 2*y*this.radius;
-				}
-				else{
-					xCoord = TILES_X_OFFSET + x*3*this.radius;
-					yCoord = TILES_Y_OFFSET + 2*y*this.radius;
-				}
-
+				double xCoord = TILES_X_OFFSET + y*Math.sqrt(3)*0.5*this.radius+ x*Math.sqrt(3)*this.radius;
+				double yCoord = TILES_Y_OFFSET + y*1.5*this.radius;
+				
 				HexTile hexTile = new HexTile(xCoord, yCoord, this.radius, tile);
 				hexTile.addActionListener(this);
 

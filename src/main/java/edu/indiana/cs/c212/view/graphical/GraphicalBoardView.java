@@ -1,15 +1,16 @@
 package edu.indiana.cs.c212.view.graphical;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.Box;
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
 
 import edu.indiana.cs.c212.gameMechanics.GameRunner;
 import edu.indiana.cs.c212.gameMechanics.PlayerColor;
@@ -45,7 +46,6 @@ public class GraphicalBoardView extends JFrame implements ActionListener{
 	@Override
 	public void actionPerformed(ActionEvent e){
 		if (game != null) game.stopGame();
-		
 		this.prepareGame();
 		Thread gameThread = new Thread(game);
 		gameThread.start();
@@ -62,10 +62,10 @@ public class GraphicalBoardView extends JFrame implements ActionListener{
 	}
 	
 	protected static void createAndShowGUI(){
-		JFrame frame = new JFrame("mainWindow");
+		JFrame frame = new JFrame("Trails");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		FlowLayout flow = new FlowLayout();
-		frame.getContentPane().setLayout(flow);
+		//FlowLayout flow = new FlowLayout();
+		//frame.getContentPane().setLayout(flow);
 		
 		
 		mainPanel.setSize(3000,3000);
@@ -75,17 +75,16 @@ public class GraphicalBoardView extends JFrame implements ActionListener{
 		startButton.setSize(100, 100);
 		JLabel label = new JLabel("TILES");
 		frame.getContentPane().add(label);
-		frame.getContentPane().add(Box.createVerticalStrut(300));
-        frame.getContentPane().add(mainPanel);
-        frame.getContentPane().add(Box.createVerticalStrut(300));
+		//frame.getContentPane().add(Box.createVerticalStrut(300));
+        frame.getContentPane().add(mainPanel, BorderLayout.CENTER);
+        //frame.getContentPane().add(Box.createVerticalStrut(300));
         frame.getContentPane().add(turnPanel);
         frame.getContentPane().add(boardSetupPanel);
         frame.getContentPane().add(rulesPanel);
-        frame.getContentPane().add(Box.createVerticalGlue());
-        frame.getContentPane().add(startButton);
+        //frame.getContentPane().add(Box.createVerticalStrut(150));
+        frame.getContentPane().add(startButton, BorderLayout.PAGE_END);
         
         frame.pack();
-        frame.setSize(5000, 5000);
         frame.setVisible(true);
 	}
 

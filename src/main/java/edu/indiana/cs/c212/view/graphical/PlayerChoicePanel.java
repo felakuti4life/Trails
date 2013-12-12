@@ -14,9 +14,6 @@ import javax.swing.JRadioButton;
 import edu.indiana.cs.c212.gameMechanics.PlayerColor;
 
 public class PlayerChoicePanel extends JPanel implements ActionListener {
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	private String name;
 	private JLabel label = new JLabel("Player Choice");

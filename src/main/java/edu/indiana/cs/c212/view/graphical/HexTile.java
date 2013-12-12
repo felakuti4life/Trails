@@ -19,14 +19,14 @@ public class HexTile extends JButton {
 	 */
 	private static final long serialVersionUID = 664297970644616392L;
 	private Polygon hexPoly;
-	private int x;
-	private int y;
+	private double x;
+	private double y;
 	private int radius;
 	
 	private Tile tile;
 
 	
-	public HexTile(int x, int y, int radius, Tile tile){
+	public HexTile(double x, double y, int radius, Tile tile){
 		this.radius = radius;
 		hexPoly = new Polygon();
 		this.x = x;
@@ -40,17 +40,17 @@ public class HexTile extends JButton {
 		Graphics2D temp = (Graphics2D) g;
 		
 		for(int n=0; n<6; n++){
-			double theta = 60*n;
-			int xDistance = (int) (this.radius*Math.cos(theta));
-			int yDistance = (int) (this.radius*Math.sin(theta));
-			hexPoly.addPoint(x+xDistance, y+yDistance);
+			double theta = n*Math.PI /3+Math.PI/2;
+			double xDistance = (int) (this.radius*Math.cos(theta));
+			double yDistance = (int) (this.radius*Math.sin(theta));
+			hexPoly.addPoint((int) (x+xDistance), (int) (y+yDistance));
 		}
 		
 		if(this.tile.getColor().equals(PlayerColor.RED))
 			temp.setColor(Color.RED);
 		else if(this.tile.getColor().equals(PlayerColor.BLUE))
 			temp.setColor(Color.BLUE);
-		else temp.setColor(Color.GRAY);
+		else temp.setColor(Color.LIGHT_GRAY);
 		
 		temp.fillPolygon(hexPoly);
 		temp.drawPolygon(hexPoly);
