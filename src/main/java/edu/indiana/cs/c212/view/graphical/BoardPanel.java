@@ -23,7 +23,7 @@ public class BoardPanel extends JPanel implements ActionListener, Observer {
 	private static int TILES_Y_OFFSET = 30;
 	protected Board board;
 	protected Point chosenXY;
-	private int radius = 15;
+	private int radius = 40;
 	
 	private List<HexTile> hexTileList = new ArrayList<HexTile>();
 	
@@ -65,8 +65,16 @@ public class BoardPanel extends JPanel implements ActionListener, Observer {
 		for (int x = 0; x < boardSize; x++) {
 			for (int y = 0; y < boardSize; y++) {
 				Tile tile = board.getTileAt(x, y);
-				int xCoord = TILES_X_OFFSET + x*2*this.radius;
-				int yCoord = TILES_Y_OFFSET + 2*y*this.radius;
+				int xCoord = 0;
+				int yCoord = 0;
+				if(y % 2 == 0){
+					xCoord = TILES_X_OFFSET + x*2*this.radius;
+					yCoord = TILES_Y_OFFSET + 2*y*this.radius;
+				}
+				else{
+					xCoord = TILES_X_OFFSET + x*2*this.radius;
+					yCoord = TILES_Y_OFFSET + 3*y*this.radius;
+				}
 
 				HexTile hexTile = new HexTile(xCoord, yCoord, this.radius, tile);
 				hexTile.addActionListener(this);

@@ -4,6 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.AbstractButton;
+import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
 import javax.swing.ButtonModel;
 import javax.swing.JLabel;
@@ -40,12 +41,15 @@ public class PlayerChoicePanel extends JPanel implements ActionListener {
 	    
 	    radioGroup.add(basicPlayerItem);
 	    radioGroup.add(randomPlayerItem);
-	    radioGroup.add(randomPlayerItem);
+	    radioGroup.add(commandLinePlayerItem);
 	    
 	    this.add(label);
 	    this.add(basicPlayerItem);
 	    this.add(randomPlayerItem);
 	    this.add(commandLinePlayerItem);
+	    
+	    BoxLayout layout = new BoxLayout(this, BoxLayout.PAGE_AXIS);
+	    this.setLayout(layout);
 	}
 	
 	public String getName(){

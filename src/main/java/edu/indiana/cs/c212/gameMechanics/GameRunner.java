@@ -26,7 +26,6 @@ public class GameRunner extends Observable implements Runnable {
 	private static ArrayList<String> playersList;
 	private boolean redTurn;
 	private boolean gameStopped;
-	private Observer observer;
 	private static ArrayList<String> ruleSets = new ArrayList<String>(3);
 	
 	
@@ -45,7 +44,6 @@ public class GameRunner extends Observable implements Runnable {
 		if(ruleSet == "1")
 			this.rules = new LoseByConnectingRules(this.board, this.red, this.blue);
 		
-		this.addObserver(observer);
 		this.redTurn = true;
 	}
 	

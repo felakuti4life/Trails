@@ -7,6 +7,7 @@ import java.awt.Polygon;
 import java.util.Observable;
 import java.util.Observer;
 
+import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -39,6 +40,9 @@ public class TurnViewer extends JPanel implements Observer {
 	}
 	
 	public void paintComponent(Graphics g){
+		
+		BoxLayout layout = new BoxLayout(this, BoxLayout.PAGE_AXIS);
+		this.setLayout(layout);
 		
 		Graphics2D temp = (Graphics2D) g;
 		temp.drawPolygon(redTriangle);
