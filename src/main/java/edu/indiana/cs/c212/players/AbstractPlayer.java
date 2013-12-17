@@ -24,5 +24,6 @@ public abstract class AbstractPlayer implements Player {
 	 * {@inheritDoc}
 	 */
 	public abstract String getName();
+	
 
 }

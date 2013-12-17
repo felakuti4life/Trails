@@ -3,11 +3,11 @@ package edu.indiana.cs.c212.view.graphical;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Polygon;
+//import java.awt.Polygon;
 import java.util.Observable;
 import java.util.Observer;
 
-import javax.swing.BoxLayout;
+//import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -21,48 +21,42 @@ public class TurnViewer extends JPanel implements Observer {
 	private static final long serialVersionUID = 5074459066652373894L;
 	private PlayerColor player;
 	private GameRunner game;
-	private JLabel redLabel = new JLabel("RED:");
-	private Polygon redTriangle;
-	private JLabel blueLabel = new JLabel("BLUE: ");
-	private Polygon blueTriangle;
+	private JLabel label = new JLabel("RED:");
 	
-	public TurnViewer(PlayerColor player, String redName, String blueName, GameRunner game){
+	public TurnViewer(PlayerColor player, String playerName, GameRunner game){
 		this.player = player;
 		this.game = game;
-		redLabel.setText(redName);
-		blueLabel.setText(blueName);
-		int xPoints[] = {0, 0, getWidth()};
-	    int yPoints[] = {0, getHeight(), getHeight()/2};
-		redTriangle = new Polygon(xPoints, yPoints, 3);
-		
-		blueTriangle = new Polygon(xPoints, yPoints, 3);
+		label.setText(playerName);
+		this.add(label);
 		game.notifyObservers();
 	}
 	
 	public void paintComponent(Graphics g){
 		
-		BoxLayout layout = new BoxLayout(this, BoxLayout.PAGE_AXIS);
-		this.setLayout(layout);
-		
+		//BoxLayout layout = new BoxLayout(this, BoxLayout.PAGE_AXIS);
+		//this.setLayout(layout);
+		label.setText(game.getPlayer(player).getName());
 		Graphics2D temp = (Graphics2D) g;
-		temp.drawPolygon(redTriangle);
-		temp.drawPolygon(blueTriangle);
-		if(this.player.equals(PlayerColor.RED)){
+		
+		boolean isRedsTurn = game.getCurrentPlayer().getColor().equals(PlayerColor.RED);
+		if(isRedsTurn && player.equals(PlayerColor.RED)){
 			temp.setColor(Color.RED);
-			temp.fillPolygon(redTriangle);
+			temp.fillPolygon(new int[]{0, 90, 0}, new int[]{0, 90, 180}, 3);
 		}
 		else{
 			temp.setColor(Color.BLUE);
-			temp.fillPolygon(blueTriangle);
+			temp.fillPolygon(new int[]{0, 90, 0}, new int[]{0, 90, 180}, 3);
 		}
 		
-		temp.drawPolygon(redTriangle);
-		temp.drawPolygon(blueTriangle);
+		temp.drawPolygon(new int[]{0, 90, 0}, new int[]{0, 90, 180}, 3);
+		if(game.getCurrentPlayer().getColor().equals(player))
+			label.setText(game.getCurrentPlayer().getName() + "'s turn!");
 		super.paintComponent(g);
 	}
 	
 	@Override
 	public void update(Observable o, Object arg) {
+		
 	}
 	
 	

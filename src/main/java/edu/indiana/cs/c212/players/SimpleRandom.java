@@ -9,21 +9,12 @@ import edu.indiana.cs.c212.gameMechanics.Move;
 import edu.indiana.cs.c212.gameMechanics.PlayerColor;
 
 public class SimpleRandom extends AbstractPlayer {
-
+	private String name;
 	public SimpleRandom(PlayerColor c) {
 		super(c);
 		this.color = c;
-	}
-
-	@Override
-	public Move getMove(Board board, List<Move> legalMoves) {
-		Random randomize = new Random();
-		return legalMoves.get(randomize.nextInt());
-	}
-
-	@Override
-	public String getName() {
-		Random randomize = new Random();
+		
+		double randomize = Math.random();
 		ArrayList<String> names = new ArrayList<String>(12);
 		names.add("Bill");
 		names.add("Tom");
@@ -37,7 +28,23 @@ public class SimpleRandom extends AbstractPlayer {
 		names.add("Smith, Ruiner of Worlds");
 		names.add("Axe");
 		names.add("Playman");
-		return "Random"+names.get(randomize.nextInt());
+		name = "Random "+ names.get((int)(Math.floor(randomize * 12)));
+	}
+	
+
+	@Override
+	public Move getMove(Board board, List<Move> legalMoves) {
+		double randomize = Math.random();
+		return legalMoves.get((int)(Math.floor(randomize * legalMoves.size())));
 	}
 
+	@Override
+	public String getName() {
+		return name;
+	}
+
+	@Override
+	public String toString(){
+		return "player" + this.getName() + " is a " + this.getClass();
+	}
 }

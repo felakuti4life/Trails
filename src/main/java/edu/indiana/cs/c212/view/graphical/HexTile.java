@@ -19,6 +19,7 @@ public class HexTile extends JButton {
 	 */
 	private static final long serialVersionUID = 664297970644616392L;
 	private Polygon hexPoly;
+	private Polygon hexInterior;
 	private double x;
 	private double y;
 	private int radius;
@@ -29,6 +30,7 @@ public class HexTile extends JButton {
 	public HexTile(double x, double y, int radius, Tile tile){
 		this.radius = radius;
 		hexPoly = new Polygon();
+		hexInterior = new Polygon();
 		this.x = x;
 		this.y = y;
 		
@@ -41,10 +43,19 @@ public class HexTile extends JButton {
 		
 		for(int n=0; n<6; n++){
 			double theta = n*Math.PI /3+Math.PI/2;
-			double xDistance = (int) (this.radius*Math.cos(theta));
-			double yDistance = (int) (this.radius*Math.sin(theta));
+			double xDistance = this.radius*Math.cos(theta);
+			double yDistance =this.radius*Math.sin(theta);
+			
 			hexPoly.addPoint((int) (x+xDistance), (int) (y+yDistance));
+			xDistance = this.radius*0.9 * Math.cos(theta);
+			yDistance = this.radius*0.9 * Math.sin(theta);
+			hexInterior.addPoint((int) (x+xDistance), (int) (y+yDistance));
 		}
+		
+		
+		temp.setColor(Color.BLACK);
+		temp.fillPolygon(hexPoly);
+		temp.drawPolygon(hexPoly);
 		
 		if(this.tile.getColor().equals(PlayerColor.RED))
 			temp.setColor(Color.RED);
@@ -52,8 +63,8 @@ public class HexTile extends JButton {
 			temp.setColor(Color.BLUE);
 		else temp.setColor(Color.LIGHT_GRAY);
 		
-		temp.fillPolygon(hexPoly);
-		temp.drawPolygon(hexPoly);
+		temp.fillPolygon(hexInterior);
+		temp.drawPolygon(hexInterior);
 		
 		super.paint(g);
 	}
@@ -74,8 +85,8 @@ public class HexTile extends JButton {
 	@Override
 	protected void processMouseEvent(MouseEvent e)
 	{
-	if ( this.hexPoly.contains(e.getPoint()))
-		super.processMouseEvent(e);
+		if ( this.hexPoly.contains(e.getPoint()))
+			super.processMouseEvent(e);
 	}
 	
 	public final int getBoardX(){

@@ -21,7 +21,7 @@ public class EjgellerBasicTrailsPlayer extends AbstractPlayer {
 		int bestDefensiveValue = this.getDefensiveValue(bestMove, board);
 		if(this.color.equals(PlayerColor.RED)){
 			for(Move move : legalMoves){
-				if(this.getOffensiveValue(move, board)+this.getDefensiveValue(move, board) > bestOffensiveValue+bestDefensiveValue)
+				if(this.getOffensiveValue(move, board)-this.getDefensiveValue(move, board) > bestOffensiveValue-bestDefensiveValue)
 					bestMove = move;
 			}
 		}

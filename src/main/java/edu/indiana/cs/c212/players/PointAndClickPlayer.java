@@ -12,6 +12,7 @@ import javax.swing.JTextField;
 import edu.indiana.cs.c212.board.Board;
 import edu.indiana.cs.c212.gameMechanics.Move;
 import edu.indiana.cs.c212.gameMechanics.PlayerColor;
+import edu.indiana.cs.c212.view.graphical.HexTile;
 
 public class PointAndClickPlayer extends AbstractPlayer implements AWTEventListener {
     
@@ -20,6 +21,7 @@ public class PointAndClickPlayer extends AbstractPlayer implements AWTEventListe
     
     public PointAndClickPlayer (PlayerColor player) {
 	super(player);
+	setName();
     }
     
     @Override
@@ -27,10 +29,18 @@ public class PointAndClickPlayer extends AbstractPlayer implements AWTEventListe
 	Toolkit toolkit = Toolkit.getDefaultToolkit();
 	toolkit.addAWTEventListener(this, 0);
 	
-	Move intendedMove = new Move(input.x, input.y);
+	//thread sleep?
+	try {
+		Thread.sleep(400000);
+	} catch (InterruptedException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+	
+	Move move = new Move(input.x, input.y);
 	
 	toolkit.removeAWTEventListener(this);
-	return intendedMove;
+	return move;
     }
     
     public void setName() {
@@ -46,6 +56,7 @@ public class PointAndClickPlayer extends AbstractPlayer implements AWTEventListe
     @Override
     public void eventDispatched (AWTEvent e) {
 	input = (Point) e.getSource();
+	Thread.currentThread().interrupt();
     }
 
 	@Override

@@ -19,7 +19,7 @@ public class PlayerChoicePanel extends JPanel implements ActionListener {
 	private JLabel label = new JLabel("Player Choice");
 	private JRadioButton basicPlayerItem;
 	private JRadioButton randomPlayerItem;
-	private AbstractButton commandLinePlayerItem;
+	private AbstractButton pointAndClickPlayerItem;
 	private ButtonGroup radioGroup;
 	
 	public String playerTypeSelected;
@@ -29,21 +29,24 @@ public class PlayerChoicePanel extends JPanel implements ActionListener {
 		String labelColor = (color == PlayerColor.RED) ? "red" : "blue";
 		label.setText(name + " (" + labelColor + "):");
 		radioGroup = new ButtonGroup();
-		basicPlayerItem = new JRadioButton("Basic Player");
+		basicPlayerItem = new JRadioButton("Ethan's Basic Trails Player");
+		basicPlayerItem.setActionCommand("Ethan's Basic Trails Player");
 	    basicPlayerItem.addActionListener(this);
 	    randomPlayerItem = new JRadioButton("Random Player");
+	    randomPlayerItem.setActionCommand("Random Player");
 	    randomPlayerItem.addActionListener(this);
-	    commandLinePlayerItem = new JRadioButton("commandLinePlayer");
-	    commandLinePlayerItem.addActionListener(this);
+	    pointAndClickPlayerItem = new JRadioButton("Point and Click Player");
+	    pointAndClickPlayerItem.setActionCommand("Point And Click Player");
+	    pointAndClickPlayerItem.addActionListener(this);
 	    
 	    radioGroup.add(basicPlayerItem);
 	    radioGroup.add(randomPlayerItem);
-	    radioGroup.add(commandLinePlayerItem);
+	    radioGroup.add(pointAndClickPlayerItem);
 	    
 	    this.add(label);
 	    this.add(basicPlayerItem);
 	    this.add(randomPlayerItem);
-	    this.add(commandLinePlayerItem);
+	    this.add(pointAndClickPlayerItem);
 	    
 	    BoxLayout layout = new BoxLayout(this, BoxLayout.PAGE_AXIS);
 	    this.setLayout(layout);

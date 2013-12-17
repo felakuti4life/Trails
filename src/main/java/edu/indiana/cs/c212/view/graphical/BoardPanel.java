@@ -1,5 +1,6 @@
 package edu.indiana.cs.c212.view.graphical;
 
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.Toolkit;
@@ -19,8 +20,8 @@ import edu.indiana.cs.c212.board.Tile;
 public class BoardPanel extends JPanel implements ActionListener, Observer {
 	
 	private static final long serialVersionUID = -2590536940878831526L;
-	private static int TILES_X_OFFSET = 40;
-	private static int TILES_Y_OFFSET = 30;
+	private static int TILES_X_OFFSET = 0;
+	private static int TILES_Y_OFFSET = 40;
 	protected Board board;
 	protected Point chosenXY;
 	private int radius = 40;
@@ -34,20 +35,18 @@ public class BoardPanel extends JPanel implements ActionListener, Observer {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		HexTile tile = (HexTile) e.getSource();
-		
 		int x = tile.getBoardX();
 		int y = tile.getBoardY();
 		Point point = new Point(x,y);
-		
 		MoveEvent moveEvent = new MoveEvent (point, e.getID());
 		
+		//toolkit implementation
 		Toolkit toolkit = Toolkit.getDefaultToolkit();
 		for (AWTEventListener listener : toolkit.getAWTEventListeners()) {
 		    listener.eventDispatched(moveEvent);
 		}
 	}
-
-
+	
 	@Override
 	public void update(Observable arg0, Object arg1) {
 		Board currentBoard = (Board) arg1;
@@ -56,6 +55,8 @@ public class BoardPanel extends JPanel implements ActionListener, Observer {
 	}
 	
 	public void paintComponent(Graphics g) {
+		//this.setSize(this.radius*3*board.getSize()+TILES_X_OFFSET*2, (this.radius*2*board.getSize()+TILES_Y_OFFSET*2));
+		
 		for (HexTile tile : hexTileList) {
 			tile.paint(g);
 		}
@@ -85,4 +86,10 @@ public class BoardPanel extends JPanel implements ActionListener, Observer {
 		}
 		
 	}
+
+	@Override
+	public Dimension getPreferredSize() {
+		return new Dimension(2*radius*board.getSize()+TILES_X_OFFSET, 2*radius*board.getSize()+TILES_Y_OFFSET);
+	}
+
 }
