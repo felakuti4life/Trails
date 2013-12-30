@@ -7,7 +7,7 @@ import javax.swing.SpinnerListModel;
 public class RulesPanel extends JPanel {
 	
 	private static final long serialVersionUID = 1078636271724728185L;
-	private static String[] rulesList = {"Standard Rules", "Lose by Connecting Tile"};
+	private static String[] rulesList = {"Standard Rules", "Lose by Connecting Tile", "Overwrite Rules", "Random Move"};
 	private static SpinnerListModel rulesModel = new SpinnerListModel(rulesList);
 	private JSpinner rulesSpinner;
 	
@@ -18,7 +18,6 @@ public class RulesPanel extends JPanel {
 	}
 	
 	public String getRules(){
-		return (this.rulesSpinner.getValue().equals(rulesList[0])) ?
-				"0" : "1";
+		return (String) this.rulesSpinner.getValue();
 	}
 }

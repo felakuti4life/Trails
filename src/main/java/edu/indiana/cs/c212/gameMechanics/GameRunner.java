@@ -41,6 +41,7 @@ public class GameRunner extends Observable implements Runnable {
 			this.rules = new StandardRules(this.board, this.red, this.blue);
 		if(ruleSet == "Lose By Connecting Rules")
 			this.rules = new LoseByConnectingRules(this.board, this.red, this.blue);
+		if(ruleSet == "Random Move");
 		else this.rules = new StandardRules(this.board, this.red, this.blue);
 		
 		//this.redTurn = true;
@@ -100,9 +101,10 @@ public void run() {
 	}
 	
 	public static List<String> getRuleSets(){
-		ruleSets.add("Standard");
-		ruleSets.add("Lose by Connecting");
-		ruleSets.add("Overwrite");
+		ruleSets.add("Standard Rules");
+		ruleSets.add("Lose by Connecting Rules");
+		ruleSets.add("Overwrite Rules");
+		ruleSets.add("Random Move");
 		return ruleSets;
 	}
 	

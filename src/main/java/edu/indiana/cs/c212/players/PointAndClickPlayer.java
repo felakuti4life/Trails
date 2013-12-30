@@ -12,7 +12,7 @@ import javax.swing.JTextField;
 import edu.indiana.cs.c212.board.Board;
 import edu.indiana.cs.c212.gameMechanics.Move;
 import edu.indiana.cs.c212.gameMechanics.PlayerColor;
-import edu.indiana.cs.c212.view.graphical.HexTile;
+//import edu.indiana.cs.c212.view.graphical.HexTile;
 
 public class PointAndClickPlayer extends AbstractPlayer implements AWTEventListener {
     

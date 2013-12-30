@@ -2,7 +2,7 @@ package edu.indiana.cs.c212.players;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
+//import java.util.Random;
 
 import edu.indiana.cs.c212.board.Board;
 import edu.indiana.cs.c212.gameMechanics.Move;
